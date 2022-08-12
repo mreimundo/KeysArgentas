@@ -1,0 +1,50 @@
+[
+    {
+        "nombre": "Elden Ring",
+        "precio": 4000,
+        "imagen": "https://www.gameit.es/wp-content/uploads/2021/12/elden-ring.jpg",
+        "id": 1
+    },
+    {
+        "nombre": "Minecraft",
+        "precio": 2500,
+        "imagen": "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_auto/ncom/en_US/games/switch/m/minecraft-switch/hero",
+        "id": 2
+    },
+    {
+        "nombre": "The Witcher III",
+        "precio": 2500,
+        "imagen": "https://i.blogs.es/5350b0/ftin491veaaa7eq/1366_2000.jpeg",
+        "id": 3
+    },
+    {
+        "nombre": "Windows 11",
+        "precio": 1500,
+        "imagen": "https://i0.wp.com/hipertextual.com/wp-content/uploads/2021/08/windows-11-1.jpeg?fit=1920%2C1080&ssl=1",
+        "id": 4
+    },
+    {
+        "nombre": "Sekiro: SDT",
+        "precio": 2000,
+        "imagen": "https://e.rpp-noticias.io/xlarge/2019/04/19/203320_780070.jpg",
+        "id": 5
+    },
+    {
+        "nombre": "God of War: Ragnarok",
+        "precio": 4000,
+        "imagen": "https://i.blogs.es/4c3cf2/godofwarragnarok/1366_2000.jpeg",
+        "id": 6
+    },
+    {
+        "nombre": "Ghost of Tsushima",
+        "precio": 3000,
+        "imagen": "https://as01.epimg.net/meristation/imagenes/2020/07/14/analisis/1594715877_842875_1594727940_portada_normal.jpg",
+        "id": 7
+    },
+    {
+        "nombre": "Red Dead Redemption II",
+        "precio": 5000,
+        "imagen": "https://cdn1.epicgames.com/b30b6d1b4dfd4dcc93b5490be5e094e5/offer/RDR2476298253_Epic_Games_Wishlist_RDR2_2560x1440_UE_V01-2560x1440-c539ce6125af9d99a0a225e024121f48.jpg",
+        "id": 8
+    }
+]

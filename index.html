@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Keys Argentas</title>
+        <link rel="shortcut icon" href="./assets/images/thumbnail.png">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">    
+        <link rel="stylesheet" href="./assets/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Nosotros</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Productos</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">PC</a></li>
+                            <li><a class="dropdown-item" href="#">PS4/PS5</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">XBOX</a></li>
+                        </li>
+                    </ul>
+                </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="contenidoHeader">
+            <a href="./index.html"><img href="./index.html" src="./assets/images/logo.png" id="logo"></a>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="botonCarrito" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1082/1082874.png" alt="carrito">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="dropdownMenu1">
+                    <div class="cart-row">
+                        <span id="cart-item-header" class="cart-item cart-header cart-column">Producto</span>
+                        <span id="cart-price-header" class="cart-price cart-header cart-column">Precio</span>
+                    </div>
+                    <div id="carrito">
+                    </div>
+                    <div class="cart-total">
+                        <strong class="cart-total-title">Total:</strong>
+                        <span class="cart-total-price">$0</span>
+                    </div>
+                    <div class="btnsCarrito">
+                        <button class="dropdown-item vaciarCarrito">Vaciar</button>
+                        <button class="dropdown-item confirmarCarrito">Confirmar pago</button>
+                    </div>
+                </ul>
+            </div>
+            <form role="search">
+                <input class="form-control me-2" type="search" placeholder="Busque un juego..." aria-label="Search">
+            </form>
+            <button class="btn">Preguntas Frecuentes</button>
+            <button class="btn">Contacto</button>
+        </div>
+    </header>
+    <main>
+        <div class="row">
+            
+        </div>
+    </main>
+    <script src="./assets/script.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

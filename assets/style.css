@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;1,700&display=swap');
+
+
+* {
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Work Sans', sans-serif !important;
+}
+
+header nav{
+    background-color: rgb(41, 8, 230) !important;
+}
+
+.contenidoHeader{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.contenidoHeader a {
+    width: 15%;
+}
+
+.contenidoHeader form {
+    width: 35em;
+    height: 2.5em;
+}
+
+.contenidoHeader form input {
+    font-style: italic;
+    text-align: center;
+}
+
+#logo{
+    width: 100%;
+}
+
+.navbar-brand, .nav-item, .nav-link {
+    color: white !important;
+}
+
+main{
+    width: 100%;
+    margin: 0 auto;
+}
+
+.card {
+    width: 22.5rem;
+    margin: 2em;
+}
+
+
+#enlace{
+    display: flex;
+    justify-content: center;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.price {
+    margin-top: 1em;
+}
+
+.centrado{
+    display: flex;
+    justify-content: center;
+}
+
+.row{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+.card-title, .precio {
+    text-align: center;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    border-color:rgb(41, 8, 230);
+    transition: all 0.3s ease;   
+}
+
+.btn:hover {
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.3);
+}
+
+#botonCarrito , #botonCarrito:hover{
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+#botonCarrito img {
+    width: 3.25em;
+}
+
+#carrito {
+    width: 30em;
+}
+
+.cart-item-image {
+    width: 5em;
+    height: 3.5em;
+}
+
+.btnsCarrito{
+    width: 100%;
+    display: flex;
+}
+
+.confirmarCarrito {
+    border: 3px solid black;
+    color: white;
+    background-color: rgb(41, 8, 230);
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.15em;
+    text-align: center;
+    width: 40%;
+    margin-left: 6em;
+}
+
+.vaciarCarrito {
+    border: 3px solid black;
+    color: rgb(209, 75, 75);
+    background-color: rgb(228, 228, 228);
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 1.15em;
+    text-align: center;
+    width: 20%;
+    margin: 0 1em;
+}
+
+#total {
+    font-size: 1.15em;
+    font-weight: bold;
+}
+
+.cart-row {
+    width: 100%;
+    display: flex;
+    font-size: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+
+.cart-column {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+}
+.cart-item {
+    width: 100%;
+}
+
+.cart-price {
+    width: 25%;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.cart-quantity-input {
+    width: 2em;
+    text-align:center;
+    margin-right: 1.5em;
+}
+.cart-total {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.cart-header {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #333;
+}
+
+#cart-item-header {
+    width: 60% !important;
+    display: flex;
+    justify-content: center;
+}
+
+#cart-price-header {
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+}
