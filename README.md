@@ -11,7 +11,7 @@ El usuario hace uso de las tarjetas que representan el catálogo del e-commerce,
 
 Organización del proyecto
 -------------------------
-La estructura de la información está diseñada en HTML con etiquetas estáticas, donde se les brindó un diseño simple en CSS y Bootstrap.
+La estructura de la información se construye en HTML con etiquetas estáticas, donde se les brindó un diseño simple en CSS y Bootstrap.
 
 La información de los productos se almacena en un archivo JSON y se guarda en un array de objetos convertido en JavaScript haciendo uso de fetch. Una vez obtenidos los productos, se crean las tarjetas y el contenido en el mismo archivo.
 
