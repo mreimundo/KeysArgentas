@@ -1,9 +1,14 @@
-//Código en el cual el usuario selecciona los productos que quiere agregar al carrito (en este caso se agregan 3), luego se procede a elegir el método de pago y finalmente se imprime por alerta en pantalla el monto.
-
+//Código en el cual el usuario selecciona los productos que quiere agregar al carrito y se agregan al carrito, en donde puede incrementar/reducir la cantidad, eliminar el producto,
+//vaciar el carrito o comprarlo.
 window.onload = function() {
+    // --------- Variables y constantes globales -----------
+    const contenedorCarrito = document.querySelector("#carrito"); 
+    let productos = [];    
 
-    //Se obtienen los datos de los productos a partir de un JSON y se crean las tarjetas correspondientes a cada uno. Luego, se recupera el carrito.
-
+    inicializarHTML();
+    
+    //Se obtienen los datos de los productos a partir de un JSON y se crean las tarjetas correspondientes a cada uno. Luego, se recupera el carrito y termina de inicializarse el HTML
+    //definiendo los eventos para la compra del carrito.
     function inicializarHTML() {
         fetch("./assets/db/productos.json")
         .then((res) => res.json())
@@ -19,6 +24,7 @@ window.onload = function() {
                         <h5 class="precio">$ ${prod.precio}</h5>
                         <button id="${prod.id}" class="btn btn-prod">Comprar</button>
                     </div>`;
+
                 document.querySelector(".row").append(tarjetaProducto);
 
                 const botonesProductos = document.querySelectorAll(".btn-prod");
@@ -28,17 +34,18 @@ window.onload = function() {
                 
             })
             recuperarCarrito();
+            document.getElementsByClassName('confirmarCarrito')[0].addEventListener('click', comprarCarrito);
+            document.getElementsByClassName('vaciarCarrito')[0].addEventListener('click', vaciarCarrito);
         })
     }
 
-    let contenedorCarrito = document.querySelector("#carrito"); 
 
     //Se ejecuta cuando se presiona "Confirmar pago" en el carrito y dependiendo de si hay o no elementos en el, se llama a la función de confirmar compra o al de error.
     function comprarCarrito() {
         (contenedorCarrito.hasChildNodes())?mensajeConfirmarCompra():mensajeErrorCompra(); 
     }
 
-//Alerta que aparece al presionar "Confirmar pago" sobre el carrito, y le pregunta al usuario si desea proceder.
+    //Alerta que aparece al presionar "Confirmar pago" sobre el carrito, y le pregunta al usuario si desea proceder.
     function mensajeConfirmarCompra(){
         Swal.fire({
             title: '¿Desea proceder a la compra?',
@@ -51,7 +58,7 @@ window.onload = function() {
         }).then((result) => { (result.isConfirmed) && confirmarCompra()})
     }
 
-//Alerta que se despliega cuando no hay productos en el carrito y se intenta comprar
+    //Alerta que se despliega cuando no hay productos en el carrito y se intenta comprar
     function mensajeErrorCompra(){
         Swal.fire({
             title: 'Error',
@@ -61,7 +68,7 @@ window.onload = function() {
         })
     }
 
-//Se invoca cuando se confirma la compra mediante el boton "Comprar" de la alerta
+    //Se invoca cuando se confirma la compra mediante el boton "Comprar" de la alerta
     function confirmarCompra(){
         vaciarCarrito();
         Swal.fire({
@@ -72,7 +79,7 @@ window.onload = function() {
         })
     }
 
-//Se llama al concretar una compra o al presionar el botón "Vaciar" sobre el carrito
+    //Se llama al concretar una compra o al presionar el botón "Vaciar" sobre el carrito
     function vaciarCarrito() {
         while (contenedorCarrito.hasChildNodes()) {
             contenedorCarrito.removeChild(contenedorCarrito.firstChild);
@@ -83,42 +90,16 @@ window.onload = function() {
         inicializarCarrito();
     }
 
-
-
-    function cambiarCantidadProducto(e) {
-        const entrada = e.target;
-        let productosLocales = JSON.parse(localStorage.getItem("carrito"));
-        let productoVariado = productosLocales.find((prod) => `#${prod.id}` === this.id);
-        console.log(productoVariado);
-        productoVariado.cantidad = entrada.value;
-        actualizarTotal(productosLocales);
-    }
-
-//Se ejecuta al presionar el boton "Eliminar", y actualiza el total del carrito removiendo todos los elementos de ese producto.
-    function eliminarProductoCarrito() {
-        let productosLocales = JSON.parse(localStorage.getItem("carrito"));
-        let productoAEliminar = productosLocales.find((prod) => `#${prod.id}` === this.id);
-        let idProducto = productoAEliminar.id;
-        let btnProducto = document.getElementById(idProducto);
-        document.getElementById(idProducto).innerHTML = "Comprar";
-        btnProducto.disabled = false;
-        let posicionProducto = productosLocales.indexOf(productoAEliminar);
-        productosLocales.splice(posicionProducto, 1);
-        localStorage.setItem("carrito", JSON.stringify(productosLocales));
-        actualizacionCarrito(productosLocales);
-    }
-
-
-//Se ejecuta cuando se presiona "Comprar" en un producto. Adquiere sus propiedades y valores y los agrega llamando a "agregarProducto". Finalmente actualiza el monto total.
+    //Se ejecuta cuando se presiona "Comprar" en un producto. Adquiere sus propiedades y valores y los agrega llamando a "agregarProducto". Finalmente actualiza el monto total.
     function agregarAlCarrito(e) {
         let boton = e.target;
         boton.setAttribute("disabled", true);
         boton.innerHTML = "Agregado";
         let producto = productos.find((prod) => prod.id == boton.id);
         producto.cantidad = 1;
-        let productosLocales = JSON.parse(localStorage.getItem("carrito"));
+        let productosLocales = obtenerCarrito();
         productosLocales.push(producto);
-        localStorage.setItem("carrito", JSON.stringify(productosLocales));
+        almacenarCarrito(productosLocales);
         actualizacionCarrito(productosLocales);
         actualizacionBotones(productosLocales);
     }
@@ -153,8 +134,37 @@ window.onload = function() {
             boton.addEventListener('click', eliminarProductoCarrito);
         })
 
-
         actualizarTotal(productosCarrito);
+    }
+
+    //Se invoca cuando se modifica la cantidad de un producto que está en el carrito. Actualiza su valor y el nuevo total.
+    function cambiarCantidadProducto(e) {
+        const entrada = e.target;
+        let productosLocales = obtenerCarrito();
+        let productoVariado = productosLocales.find((prod) => `#${prod.id}` === this.id);
+        productoVariado.cantidad = entrada.value;
+        actualizarTotal(productosLocales);
+    }
+    
+    //Se ejecuta al presionar el boton "Eliminar", y actualiza el total del carrito removiendo todos los elementos de ese producto.
+    function eliminarProductoCarrito() {
+        let productosLocales = obtenerCarrito();
+        let productoAEliminar = productosLocales.find((prod) => `#${prod.id}` === this.id);
+        let idProducto = productoAEliminar.id;
+        let btnProducto = document.getElementById(idProducto);
+        document.getElementById(idProducto).innerHTML = "Comprar";
+        btnProducto.disabled = false;
+        let posicionProducto = productosLocales.indexOf(productoAEliminar);
+        productosLocales.splice(posicionProducto, 1);
+        almacenarCarrito(productosLocales);
+        actualizacionCarrito(productosLocales);
+    }
+        
+    //Actualiza el importe del carrito, recorriendo dicho array y acumulando el precio de cada uno. Finalmente muestra el valor en el HTML.
+    function actualizarTotal(carrito) {
+        let totalCarrito = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+        document.querySelector(".cart-total-price").innerText = `$${totalCarrito}`;
+        almacenarCarrito(carrito);
     }
 
     //Se llama al agregar un producto al carrito y al recuperarlo desde el localStorage. Se establece el boton de este a deshabilitado para que no se pueda duplicar
@@ -182,22 +192,24 @@ window.onload = function() {
             btn.removeAttribute("disabled");
         })
     }
-
-    //Actualiza el importe del carrito, recorriendo dicho array y acumulando el precio de cada uno. Finalmente muestra el valor en el HTML.
-    function actualizarTotal(carrito) {
-        let totalCarrito = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-        document.querySelector(".cart-total-price").innerText = `$${totalCarrito}`;
-        localStorage.setItem("carrito", JSON.stringify(carrito));
+    
+    //Obtiene el carrito desde el almacenamiento local y lo retorna al lugar de invocación
+    function obtenerCarrito() {
+        return JSON.parse(localStorage.getItem("carrito"));
     }
     
-    //Recupera el carrito si hay elementos en el localStorage, o instancia uno nuevo en este en caso contrario.
+    //Establece la nueva información del carrito al almacenamiento local
+    function almacenarCarrito(carrito){
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+    }
+    //Recupera el carrito si hay elementos en el localStorage, o instancia uno nuevo en este en caso contrario
     function recuperarCarrito() {
         (localStorage.getItem("carrito") !== null)?dibujarProductosDesdeDB():inicializarCarrito();
     }
 
     //Al recuperar el carrito, se actualizan los botones y elementos correspondientes que estaban en este.
     function dibujarProductosDesdeDB(){
-        let productosRecuperados = JSON.parse(localStorage.getItem("carrito"));
+        let productosRecuperados = obtenerCarrito();
         actualizacionBotones(productosRecuperados);
         actualizacionCarrito(productosRecuperados);
     }
@@ -207,13 +219,4 @@ window.onload = function() {
         localStorage.setItem("carrito", "[]");
     }
 
-    //1 - Se crean los productos
-    let productos = [];    
-    
-    //2 - Introducimos el contenido de los productos en un contenedor en forma de fila (row) y los cargamos al arreglo definido anteriormente
-    inicializarHTML();
-
-    //3- Asignamos eventos a los botones de comprar y vaciar carrito
-    document.getElementsByClassName('confirmarCarrito')[0].addEventListener('click', comprarCarrito);
-    document.getElementsByClassName('vaciarCarrito')[0].addEventListener('click', vaciarCarrito);
 };
