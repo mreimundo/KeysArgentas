@@ -33,12 +33,12 @@ window.onload = function() {
                 });
                 
             })
+            
             recuperarCarrito();
             document.getElementsByClassName('confirmarCarrito')[0].addEventListener('click', comprarCarrito);
             document.getElementsByClassName('vaciarCarrito')[0].addEventListener('click', vaciarCarrito);
         })
     }
-
 
     //Se ejecuta cuando se presiona "Confirmar pago" en el carrito y dependiendo de si hay o no elementos en el, se llama a la función de confirmar compra o al de error.
     function comprarCarrito() {
@@ -58,7 +58,7 @@ window.onload = function() {
         }).then((result) => { (result.isConfirmed) && confirmarCompra()})
     }
 
-    //Alerta que se despliega cuando no hay productos en el carrito y se intenta comprar
+    //Alerta que se despliega cuando no hay productos en el carrito y se intenta comprar.
     function mensajeErrorCompra(){
         Swal.fire({
             title: 'Error',
@@ -68,7 +68,7 @@ window.onload = function() {
         })
     }
 
-    //Se invoca cuando se confirma la compra mediante el boton "Comprar" de la alerta
+    //Se invoca cuando se confirma la compra mediante el boton "Comprar" de la alerta. Vacía el carrito de los productos comprados e imprime una alerta por pantalla.
     function confirmarCompra(){
         vaciarCarrito();
         Swal.fire({
@@ -79,22 +79,23 @@ window.onload = function() {
         })
     }
 
-    //Se llama al concretar una compra o al presionar el botón "Vaciar" sobre el carrito
+    //Se llama al concretar una compra o al presionar el botón "Vaciar" sobre el carrito. Remueve cada nodo del carrito hasta que no tenga hijos y vacía el arreglo, actualizando los
+    //componentes.
     function vaciarCarrito() {
         while (contenedorCarrito.hasChildNodes()) {
             contenedorCarrito.removeChild(contenedorCarrito.firstChild);
         }
-        productosCarrito = [];
+        let productosCarrito = [];
         actualizacionCarrito(productosCarrito);
         inicializarBotones();
         inicializarCarrito();
     }
 
-    //Se ejecuta cuando se presiona "Comprar" en un producto. Adquiere sus propiedades y valores y los agrega llamando a "agregarProducto". Finalmente actualiza el monto total.
+    //Se ejecuta cuando se presiona "Comprar" en un producto. Adquiere sus propiedades y valores, y compara ese id con los del array "productos". Finalmente lo agrega al carrito del
+    //almacenamiento local y actualiza todos los componentes.
     function agregarAlCarrito(e) {
         let boton = e.target;
-        boton.setAttribute("disabled", true);
-        boton.innerHTML = "Agregado";
+        cambiarBoton(boton);
         let producto = productos.find((prod) => prod.id == boton.id);
         producto.cantidad = 1;
         let productosLocales = obtenerCarrito();
@@ -104,7 +105,8 @@ window.onload = function() {
         actualizacionBotones(productosLocales);
     }
 
-
+    //Recibe los productos que tiene el carrito actualmente y dibuja en el HTML los productos agregados o modificados, junto a los controladores de eliminar producto y modificar
+    //cantidad. Por último actualiza el total del carrito.
     function actualizacionCarrito(productosCarrito) {
         contenedorCarrito.innerHTML = "";
         productosCarrito.forEach((prod) => {
@@ -146,28 +148,28 @@ window.onload = function() {
         actualizarTotal(productosLocales);
     }
     
-    //Se ejecuta al presionar el boton "Eliminar", y actualiza el total del carrito removiendo todos los elementos de ese producto.
+
+    //Se ejecuta al presionar el boton "Eliminar". Encuentra el producto mediante el id y actualiza el total del carrito removiendo todos los elementos de ese producto.
     function eliminarProductoCarrito() {
         let productosLocales = obtenerCarrito();
         let productoAEliminar = productosLocales.find((prod) => `#${prod.id}` === this.id);
-        let idProducto = productoAEliminar.id;
-        let btnProducto = document.getElementById(idProducto);
-        document.getElementById(idProducto).innerHTML = "Comprar";
-        btnProducto.disabled = false;
+        let btnProducto = document.getElementById(productoAEliminar.id);
+        reiniciarBoton(btnProducto);
         let posicionProducto = productosLocales.indexOf(productoAEliminar);
         productosLocales.splice(posicionProducto, 1);
         almacenarCarrito(productosLocales);
         actualizacionCarrito(productosLocales);
     }
-        
-    //Actualiza el importe del carrito, recorriendo dicho array y acumulando el precio de cada uno. Finalmente muestra el valor en el HTML.
+    
+
+    //Actualiza el importe total del carrito, recorriendo dicho array y acumulando el precio de cada uno multiplicado por su cantidad. Finalmente actualiza el valor en el HTML.
     function actualizarTotal(carrito) {
         let totalCarrito = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
         document.querySelector(".cart-total-price").innerText = `$${totalCarrito}`;
         almacenarCarrito(carrito);
     }
 
-    //Se llama al agregar un producto al carrito y al recuperarlo desde el localStorage. Se establece el boton de este a deshabilitado para que no se pueda duplicar
+    //Recorre los botones y los productos, y si coinciden los id, cambia su estado.
     function actualizacionBotones(productosCarrito){
         const botonesProductos = document.querySelectorAll(".btn-prod");
         productosCarrito.forEach((prod) => {
@@ -177,32 +179,41 @@ window.onload = function() {
         })
     }
     
-    //Actualiza el estado de un boton cuando el producto fue agregado al carrito
+    //Actualiza el estado de un boton cuando el producto fue agregado al carrito para que no pueda duplicarse.
     function establecerProductoAgregado(producto){
-        let botonAdd = document.getElementById(`${producto.id}`);
-        botonAdd.setAttribute("disabled", true);
-        botonAdd.innerHTML = "Agregado"; 
+        let boton = document.getElementById(`${producto.id}`);
+        cambiarBoton(boton);
     }
 
-    //Se reinicia el botón, pero dado que el producto fue comprado, queda inhabilitado para otra compra
+    //Recibe un boton y lo deshabilita estableciéndolo como agregado.
+    function cambiarBoton(boton){
+        boton.setAttribute("disabled", true);
+        boton.innerHTML = "Agregado";
+    }
+
+    //Vuelve a los botones a su estado inicial cuando se vacía el carrito.
     function inicializarBotones(){
         const botonesProductos = document.querySelectorAll(".btn-prod");
-        botonesProductos.forEach((btn) => {
-            btn.innerHTML = "Comprar";
-            btn.removeAttribute("disabled");
-        })
+        botonesProductos.forEach((btn) => reiniciarBoton(btn))
     }
     
-    //Obtiene el carrito desde el almacenamiento local y lo retorna al lugar de invocación
+    //Recibe un boton y lo restablece a su estado inicial.
+    function reiniciarBoton(boton){
+        boton.innerHTML = "Comprar";
+        boton.removeAttribute("disabled");
+    }
+    
+    //Obtiene el carrito desde el almacenamiento local y lo retorna al lugar de invocación.
     function obtenerCarrito() {
         return JSON.parse(localStorage.getItem("carrito"));
     }
     
-    //Establece la nueva información del carrito al almacenamiento local
+    //Establece la nueva información del carrito al almacenamiento local.
     function almacenarCarrito(carrito){
         localStorage.setItem("carrito", JSON.stringify(carrito));
     }
-    //Recupera el carrito si hay elementos en el localStorage, o instancia uno nuevo en este en caso contrario
+
+    //Recupera el carrito si hay elementos en el localStorage, o instancia uno nuevo en este en caso contrario.
     function recuperarCarrito() {
         (localStorage.getItem("carrito") !== null)?dibujarProductosDesdeDB():inicializarCarrito();
     }
@@ -214,7 +225,7 @@ window.onload = function() {
         actualizacionCarrito(productosRecuperados);
     }
 
-    //Se inicializa un item en localStorage de clave "carrito" y vacío
+    //Se inicializa un item en localStorage de clave "carrito" y vacío.
     function inicializarCarrito() {
         localStorage.setItem("carrito", "[]");
     }
