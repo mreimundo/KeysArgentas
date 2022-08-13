@@ -83,6 +83,17 @@ window.onload = function() {
         inicializarCarrito();
     }
 
+
+
+    function cambiarCantidadProducto(e) {
+        const entrada = e.target;
+        let productosLocales = JSON.parse(localStorage.getItem("carrito"));
+        let productoVariado = productosLocales.find((prod) => `#${prod.id}` === this.id);
+        console.log(productoVariado);
+        productoVariado.cantidad = entrada.value;
+        actualizarTotal(productosLocales);
+    }
+
 //Se ejecuta al presionar el boton "Eliminar", y actualiza el total del carrito removiendo todos los elementos de ese producto.
     function eliminarProductoCarrito() {
         let productosLocales = JSON.parse(localStorage.getItem("carrito"));
@@ -104,6 +115,7 @@ window.onload = function() {
         boton.setAttribute("disabled", true);
         boton.innerHTML = "Agregado";
         let producto = productos.find((prod) => prod.id == boton.id);
+        producto.cantidad = 1;
         let productosLocales = JSON.parse(localStorage.getItem("carrito"));
         productosLocales.push(producto);
         localStorage.setItem("carrito", JSON.stringify(productosLocales));
@@ -124,15 +136,23 @@ window.onload = function() {
             </div>
             <span class="cart-price cart-column">${prod.precio}</span>
             <div class="cart-quantity cart-column">
+            <input id="#${prod.id}" type="number" min="1" value=${prod.cantidad} class="cart-quantity-input">
             <button id="#${prod.id}" class="btn btn-danger" type="button">Eliminar</button>
-            </div>`;
+            </div>
+            `;
             contenedorCarrito.appendChild(filaCarrito);
         })
         
+        let inputsCantidad = document.querySelectorAll(".cart-quantity-input");
+        inputsCantidad.forEach((input) => {
+            input.addEventListener('change', cambiarCantidadProducto);
+        })
+
         let botonesEliminar = document.querySelectorAll(".btn-danger");
         botonesEliminar.forEach((boton) => {
             boton.addEventListener('click', eliminarProductoCarrito);
         })
+
 
         actualizarTotal(productosCarrito);
     }
@@ -165,8 +185,9 @@ window.onload = function() {
 
     //Actualiza el importe del carrito, recorriendo dicho array y acumulando el precio de cada uno. Finalmente muestra el valor en el HTML.
     function actualizarTotal(carrito) {
-        let totalCarrito = carrito.reduce((total, producto) => total + producto.precio, 0);
+        let totalCarrito = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
         document.querySelector(".cart-total-price").innerText = `$${totalCarrito}`;
+        localStorage.setItem("carrito", JSON.stringify(carrito));
     }
     
     //Recupera el carrito si hay elementos en el localStorage, o instancia uno nuevo en este en caso contrario.

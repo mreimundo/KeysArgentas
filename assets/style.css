@@ -95,6 +95,10 @@ main{
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.3);
 }
 
+#dropdownMenu1{
+    width: 40em;
+}
+
 #botonCarrito , #botonCarrito:hover{
     background-color: transparent !important;
     border-color: transparent !important;
@@ -105,11 +109,11 @@ main{
 }
 
 #carrito {
-    width: 30em;
+    width: 40em;
 }
 
 .cart-item-image {
-    width: 5em;
+    width: 6em;
     height: 3.5em;
 }
 
@@ -126,8 +130,8 @@ main{
     font-weight: bold;
     font-size: 1.15em;
     text-align: center;
-    width: 40%;
-    margin-left: 6em;
+    width: 30%;
+    margin-left: 14.5em;
 }
 
 .vaciarCarrito {
@@ -138,8 +142,8 @@ main{
     font-weight: bold;
     font-size: 1.15em;
     text-align: center;
-    width: 20%;
-    margin: 0 1em;
+    width: 15%;
+    margin-left: 2em;
 }
 
 #total {
@@ -148,7 +152,7 @@ main{
 }
 
 .cart-row {
-    width: 100%;
+    width: 40em;
     display: flex;
     font-size: 15px;
     font-weight: bold;
@@ -168,7 +172,6 @@ main{
 }
 
 .cart-price {
-    width: 25%;
     font-size: 1.2em;
     color: #333;
 }
@@ -176,8 +179,13 @@ main{
 .cart-quantity-input {
     width: 2em;
     text-align:center;
-    margin-right: 1.5em;
+    margin-left: 1.5em;
 }
+
+.btn-danger {
+    margin: 0 1em;
+}
+
 .cart-total {
     font-size: 1.25em;
     font-weight: bold;
@@ -187,16 +195,19 @@ main{
     font-weight: bold;
     font-size: 1.3em;
     color: #333;
-}
-
-#cart-item-header {
-    width: 60% !important;
     display: flex;
     justify-content: center;
 }
 
+#cart-item-header {
+    width: 50% !important;
+}
+
 #cart-price-header {
-    width: 40%;
-    display: flex;
-    justify-content: flex-start;
+    width: 25%;
+}
+
+#cart-quantity-header {
+    width: 25%;
+    
 }
